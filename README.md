@@ -6,75 +6,57 @@ Lanciare il visual studio code e aprire la cartella appena creata
 
 Lanciare un terminale
 
-Scrivere "dotnet new console"
+Copiare il seguente comando nel terminale
 
-Visual studio coce creera una cartella obj un csproject e un Program.cs
+``` 
+dotnet new console 
+```
+Una volta terminata la creazione della console aprire Program.cs
 
-Aprire Program.cs
+Ora cliccare <a href = "https://www.sqlitetutorial.net/sqlite-sample-database/">qui</a>, si aprirà la pagina dove sarà possibile scaricare il database di prova che si troverà nella sezione Download SQLite sample database, quindi scaricarlo
 
-Ora dobbiamo cercare sulla rete chinook.db
+Ua volta scaricato spostarlo nella stessa cartella del nostro progetto
 
-Andare su Sqlitetutorial.net 
+Riaprire la finestra Visual Studio Code aperta in precedenza 
 
-<a href = "https://www.sqlitetutorial.net/sqlite-sample-database/">
-
-<img 
-src="https://user-images.githubusercontent.com/116791222/234796021-8f259456-17dd-4b0b-bdc4-05b7243e69c4.png"
-Width="600"
-/>
-
-</a>
-
-il file da scaricare si trova nella sezione Download SQLite sample database
+Installare il plugin per visual studio code di nome SQLite, la cui icona è riportata qui sotto
 
 <img 
 src="https://user-images.githubusercontent.com/116791222/234798006-06c01e35-cd3f-4772-ab83-5b305904634a.png"
 />
 
-Installare il plugin per visual studio code che si chiama SQLite 
+!!Ricordo che SQLite non è un Databse, ma una libreria!!
 
-!!!!SQLite non è un database è una libreria!!!!!!!
+Fare pulsante destro su chinook.db da dentro Visual Studio Code e cliccare "Open Databse"
 
-Fare pulsante destro su chinook.db spostato in precedenza nella stessa cartella del progetto e cliccare "Open Databse"
-
-Ora su program scrivere
-
-<img 
-src="https://user-images.githubusercontent.com/116791222/234799608-82c31ec5-3c56-4149-92a8-9f8beaa6bbd0.png"
-/>
-
-Ora entrare nel csproj e cercare "<PackageReference Include="sqlite-net-pc1" Version="1.8.116""
-
-Quindi il nostro programma utilizza una libreria di nome "sqlite-net-pcl"
-
-Se non è presente fare i seguenti passaggi
+Ora entrare nel csproj e cercare `<PackageReference Include="sqlite-net-pc1" Version="1.8.116"`
  
-Ora copio il nome della libreria prima citata apro il terminale e scrivo "dotnet add package sqlite-net-pcl"
+Se non è presente copiare e incollare il seguente comando nel terminale:
 
-Adesso rientriamo nel Program e scrivere in cima "using SQLite"
+```
+dotnet add package sqlite-net-pcl
+```
 
-Ora provare ad avviarlo
+Ora avrete la libreria 
 
-Per continuare scrivere il seguete comando
+Copiare e incollare il seguente codice nel proprio programma e successivamente scrivere nel terminale `dotnet run`:
 
-<img
-src="https://user-images.githubusercontent.com/116791222/234801029-d85168ee-8ad6-41a8-8f0b-60c6fbe1a2a9.png"
-/>
+```
+using SQLite;
 
-Ora si può notare che ci sarà un errore nella parola Artist, questo avviene perchè non abbiamo una classe di nome Artist
+//Connessione al Database
+SQLiteConnection cn1 = new SQLiteConnection("chinook.db");
 
-Quindi scrivere in fondo al programma:
+//Richieste al Database
+var tblArtists = cn1.Query<Artist>("select * from artists");
 
+//Stampa su console di quanti record sono presenti in tblArtists
+Console.WriteLine($"In questa tabella ci sono {tblArtists.Count} record!");
+
+//Classe di contenimento dei dati
 public class Artist
 {
-
+    public int ArtistId{get;set;}
+    public string Name{get;set;}
 }
-
-Dopo questo il problema sembrera risolto, ma non avremo delle variabili all'interno della classe dove salvare i dati
-
-Aggiungere quindi dentro la classe Artist queste cose:
-
-public int ArtistId{get;set;}
-
-public sting Name{get;set;}
-
+```
